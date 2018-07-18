@@ -1,4 +1,4 @@
-package bool;
+package bool.expression;
 
 import bool.evaluable.Group;
 import bool.evaluable.Operator;
@@ -20,7 +20,7 @@ public class Expression {
         expression = format(str);
         validate(expression);
 
-        Group main = new Group(expression.charAt(0) == '!');
+        Group main = new Group();
 
         boolean not = false;
         int depth = 0;
@@ -40,7 +40,7 @@ public class Expression {
             } else if (expression.charAt(i) == ')') {
                 depth--;
             } else if (expression.charAt(i) == '!') {
-                not = true;
+                not = !not;
             } else if (!Character.isDigit(expression.charAt(i))) {
                 main.add(new Operator(expression.charAt(i)), depth);
             }
@@ -61,7 +61,7 @@ public class Expression {
                 .replaceAll("(?<=[\\w)])(?=[A-Z(!])", "*");
     }
 
-    private void validate(String str) {
+    private void validate(String str) throws IllegalArgumentException {
         if (str.isEmpty()) {
             throw new IllegalArgumentException("Empty expression");
         } else if ((str.length() - str.replace("(", "").length()) != (str.length() - str.replace(")", "").length())) {
