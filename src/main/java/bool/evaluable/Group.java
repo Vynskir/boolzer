@@ -16,11 +16,16 @@ public class Group implements Evaluable {
     private Evaluable evaluable;
     private List<Operation> operations = new ArrayList<>();
 
+    public Group() {
+        this(false);
+    }
+
     public Group(boolean not) {
         this.not = not;
     }
 
     public void add(Group group, int depth) {
+        System.out.println(depth);
         if (depth == 1) {
             if (operator != null) operations.add(new Operation(operator, evaluable, group));
             evaluable = group;
@@ -75,16 +80,14 @@ public class Group implements Evaluable {
         }
         operations.sort(Collections.reverseOrder());
         List<Operation> merges = mergeOperations(operations);
+        boolean value = merges.isEmpty() ? evaluable.evaluate() : merges.get(0).evaluate();
 
-        boolean value;
-        if (merges.isEmpty()) value = variables.get(0).evaluate();
-        else value = merges.get(0).evaluate();
         return not != value;
     }
 
     public void setValues(Variable v, boolean b) {
         for (Variable variable : variables) {
-            if (variable.getName().equals(v.getName())) variable.setValue(b);
+            if (variable.getLabel().equals(v.getLabel())) variable.setValue(b);
         }
     }
 
@@ -94,8 +97,7 @@ public class Group implements Evaluable {
 
     @Override
     public String toString() {
-        if (not) return "NOT " + operations.toString();
-        return operations.toString();
+        return not ? "NOT" + operations.toString() : operations.toString();
     }
 
 }

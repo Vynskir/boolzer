@@ -8,7 +8,6 @@ import java.util.Objects;
  */
 public class Operation implements Evaluable, Comparable<Operation> {
     private final Operator operator;
-
     private Evaluable left;
     private Evaluable right;
 
@@ -30,8 +29,11 @@ public class Operation implements Evaluable, Comparable<Operation> {
         return false;
     }
 
+    private void applyLaw() {
+    }
+
     @Override
-    public boolean evaluate() {
+    public boolean evaluate() throws IllegalArgumentException {
         switch (operator.getType()) {
             case AND:
                 return left.evaluate() && right.evaluate();

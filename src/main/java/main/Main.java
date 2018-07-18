@@ -1,6 +1,6 @@
 package main;
 
-import bool.Expression;
+import bool.expression.Expression;
 
 /**
  * @author Thibault Robin

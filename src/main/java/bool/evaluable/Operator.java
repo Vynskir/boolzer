@@ -5,7 +5,7 @@ package bool.evaluable;
  * @version 1.0
  */
 public class Operator {
-    private Type type;
+    private final Type type;
 
     public Operator(char name) {
         this(Character.toString(name));

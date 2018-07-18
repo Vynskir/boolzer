@@ -8,16 +8,28 @@ import java.util.Objects;
  */
 public class Variable implements Evaluable, Comparable<Variable> {
     private final boolean not;
-    private final String name;
+    private final String label;
     private boolean value;
 
-    public Variable(char name, boolean not) {
-        this(Character.toString(name), not);
+    public Variable(char label, boolean not) {
+        this(Character.toString(label), not);
     }
 
-    public Variable(String name, boolean not) {
-        this.name = name;
+    public Variable(String label, boolean not) {
+        this.label = label;
         this.not = not;
+    }
+
+    public boolean getValue() {
+        return value;
+    }
+
+    public void setValue(boolean value) {
+        this.value = value;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     @Override
@@ -25,23 +37,15 @@ public class Variable implements Evaluable, Comparable<Variable> {
         return not != value;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setValue(boolean value) {
-        this.value = value;
-    }
-
     @Override
     public int compareTo(Variable that) {
-        return this.name.compareTo(that.name);
+        return this.label.compareTo(that.label);
     }
 
     @Override
     public String toString() {
-        if (not) return "NOT " + name;
-        return name;
+        if (not) return "NOT " + label;
+        return label;
     }
 
     @Override
@@ -49,11 +53,11 @@ public class Variable implements Evaluable, Comparable<Variable> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Variable variable = (Variable) o;
-        return name.equals(variable.name);
+        return label.equals(variable.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(label);
     }
 }

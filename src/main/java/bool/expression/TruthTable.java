@@ -1,4 +1,4 @@
-package bool;
+package bool.expression;
 
 import bool.evaluable.Group;
 import bool.evaluable.Variable;
@@ -24,15 +24,10 @@ public class TruthTable {
             List<Character> row = new ArrayList<>();
 
             for (int i = 0; i < permutation.length(); i++) {
-                if (permutation.charAt(i) == '1') {
-                    group.setValues(header.get(i), true);
-                } else {
-                    group.setValues(header.get(i), false);
-                }
+                group.setValues(header.get(i), permutation.charAt(i) == '1');
                 row.add(permutation.charAt(i));
             }
-            if (group.evaluate()) row.add('1');
-            else row.add('0');
+            row.add(group.evaluate() ? '1' : '0');
             table.add(row);
         }
     }
@@ -54,7 +49,7 @@ public class TruthTable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Variable variable : header) {
-            sb.append(variable.getName());
+            sb.append(variable.getLabel());
             sb.append("\t");
         }
         sb.append("\n");
