@@ -4,43 +4,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Thibault Robin
+ * @version 1.0
+ */
 public class Group implements Evaluable {
-    private boolean not;
-
+    private final boolean not;
+    private final List<Group> groups = new ArrayList<>();
+    private final List<Variable> variables = new ArrayList<>();
     private Operator operator;
     private Evaluable evaluable;
-
-    private List<Group> groups = new ArrayList<>();
-    private List<Variable> variables = new ArrayList<>();
     private List<Operation> operations = new ArrayList<>();
 
-    public Group(boolean inverted) {
-        this.not = inverted;
+    public Group(boolean not) {
+        this.not = not;
     }
 
     public void add(Group group, int depth) {
         if (depth == 1) {
-            if (this.operator != null) {
-                operations.add(new Operation(this.operator, evaluable, group));
-            }
-            this.evaluable = group;
-            this.groups.add(group);
+            if (operator != null) operations.add(new Operation(operator, evaluable, group));
+            evaluable = group;
+            groups.add(group);
         } else {
-            this.groups.get(groups.size() - 1).add(group, depth - 1);
+            groups.get(groups.size() - 1).add(group, depth - 1);
         }
     }
 
     public void add(Variable variable, int depth) {
-        this.variables.add(variable);
+        variables.add(variable);
 
         if (depth == 0) {
-            if (this.operator != null) {
-                operations.add(new Operation(this.operator, evaluable, variable));
-            }
-            this.evaluable = variable;
+            if (operator != null) operations.add(new Operation(operator, evaluable, variable));
+            evaluable = variable;
         } else {
-
-            this.groups.get(this.groups.size() - 1).add(variable, depth - 1);
+            groups.get(this.groups.size() - 1).add(variable, depth - 1);
         }
     }
 
@@ -48,7 +45,7 @@ public class Group implements Evaluable {
         if (depth == 0) {
             this.operator = operator;
         } else {
-            this.groups.get(groups.size() - 1).add(operator, depth - 1);
+            groups.get(groups.size() - 1).add(operator, depth - 1);
         }
     }
 

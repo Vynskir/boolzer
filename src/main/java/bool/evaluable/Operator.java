@@ -1,5 +1,9 @@
 package bool.evaluable;
 
+/**
+ * @author Thibault Robin
+ * @version 1.0
+ */
 public class Operator {
     private Type type;
 

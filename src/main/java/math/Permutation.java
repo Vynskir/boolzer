@@ -3,9 +3,12 @@ package math;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Thibault Robin
+ * @version 1.0
+ */
 public class Permutation {
-
-    private List<String> values;
+    private final List<String> values;
 
     public Permutation(int size) {
         values = compute(size, "");

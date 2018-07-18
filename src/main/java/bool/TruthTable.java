@@ -6,10 +6,13 @@ import math.Permutation;
 
 import java.util.*;
 
+/**
+ * @author Thibault Robin
+ * @version 1.0
+ */
 public class TruthTable {
-
-    private List<Variable> header = new ArrayList<>();
-    private List<List<Character>> table = new ArrayList<>();
+    private final List<Variable> header = new ArrayList<>();
+    private final List<List<Character>> table = new ArrayList<>();
 
     public TruthTable(Group group) {
         header.addAll(new HashSet<>(group.getVariables()));

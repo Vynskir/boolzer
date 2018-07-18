@@ -1,7 +1,13 @@
 package bool.evaluable;
 
+import java.util.Objects;
+
+/**
+ * @author Thibault Robin
+ * @version 1.0
+ */
 public class Operation implements Evaluable, Comparable<Operation> {
-    private Operator operator;
+    private final Operator operator;
 
     private Evaluable left;
     private Evaluable right;
@@ -10,25 +16,6 @@ public class Operation implements Evaluable, Comparable<Operation> {
         this.operator = operator;
         this.left = left;
         this.right = right;
-    }
-
-    @Override
-    public boolean evaluate() {
-        if (operator.getType() == Operator.Type.AND) {
-            return left.evaluate() && right.evaluate();
-        } else if (operator.getType() == Operator.Type.NAND) {
-            return !(left.evaluate() && right.evaluate());
-        } else if (operator.getType() == Operator.Type.XOR) {
-            return (left.evaluate() && !right.evaluate()) || (!left.evaluate() && right.evaluate());
-        } else if (operator.getType() == Operator.Type.XNOR) {
-            return !((left.evaluate() && !right.evaluate()) || (!left.evaluate() && right.evaluate()));
-        } else if (operator.getType() == Operator.Type.OR) {
-            return left.evaluate() || right.evaluate();
-        } else if (operator.getType() == Operator.Type.NOR) {
-            return !(left.evaluate() || right.evaluate());
-        } else {
-            throw new IllegalArgumentException(operator.toString());
-        }
     }
 
     public boolean overlapsWith(Operation that) {
@@ -44,8 +31,43 @@ public class Operation implements Evaluable, Comparable<Operation> {
     }
 
     @Override
+    public boolean evaluate() {
+        switch (operator.getType()) {
+            case AND:
+                return left.evaluate() && right.evaluate();
+            case NAND:
+                return !(left.evaluate() && right.evaluate());
+            case XOR:
+                return (left.evaluate() && !right.evaluate()) || (!left.evaluate() && right.evaluate());
+            case XNOR:
+                return !((left.evaluate() && !right.evaluate()) || (!left.evaluate() && right.evaluate()));
+            case OR:
+                return left.evaluate() || right.evaluate();
+            case NOR:
+                return !(left.evaluate() || right.evaluate());
+            default:
+                throw new IllegalArgumentException(operator.toString());
+        }
+    }
+
+    @Override
     public int compareTo(Operation that) {
         return this.operator.getType().getPrecedence() - that.operator.getType().getPrecedence();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Operation operation = (Operation) o;
+        return Objects.equals(operator, operation.operator) &&
+                Objects.equals(left, operation.left) &&
+                Objects.equals(right, operation.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(operator, left, right);
     }
 
     @Override

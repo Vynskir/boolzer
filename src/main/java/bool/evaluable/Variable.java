@@ -2,11 +2,14 @@ package bool.evaluable;
 
 import java.util.Objects;
 
+/**
+ * @author Thibault Robin
+ * @version 1.0
+ */
 public class Variable implements Evaluable, Comparable<Variable> {
+    private final boolean not;
+    private final String name;
     private boolean value;
-    private boolean not;
-
-    private String name;
 
     public Variable(char name, boolean not) {
         this(Character.toString(name), not);
@@ -31,6 +34,11 @@ public class Variable implements Evaluable, Comparable<Variable> {
     }
 
     @Override
+    public int compareTo(Variable that) {
+        return this.name.compareTo(that.name);
+    }
+
+    @Override
     public String toString() {
         if (not) return "NOT " + name;
         return name;
@@ -47,10 +55,5 @@ public class Variable implements Evaluable, Comparable<Variable> {
     @Override
     public int hashCode() {
         return Objects.hash(name);
-    }
-
-    @Override
-    public int compareTo(Variable that) {
-        return this.name.compareTo(that.name);
     }
 }
