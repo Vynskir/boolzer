@@ -29,9 +29,6 @@ public class Operation implements Evaluable, Comparable<Operation> {
         return false;
     }
 
-    private void applyLaw() {
-    }
-
     @Override
     public boolean evaluate() throws IllegalArgumentException {
         switch (operator.getType()) {

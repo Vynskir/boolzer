@@ -1,0 +1,7 @@
+.text-area *.text {
+    -fx-padding: 0;
+    -fx-text-alignment: center;
+}
+.text-field *.text {
+    -fx-text-alignment: center;
+}

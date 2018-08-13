@@ -1,5 +1,7 @@
 package bool.evaluable;
 
+import java.util.Objects;
+
 /**
  * @author Thibault Robin
  * @version 1.0
@@ -16,7 +18,7 @@ public class Operator {
             case "*":
                 this.type = Type.AND;
                 break;
-            case "⊼":
+            case "↑":
                 this.type = Type.NAND;
                 break;
             case "⊕":
@@ -28,7 +30,7 @@ public class Operator {
             case "+":
                 this.type = Type.OR;
                 break;
-            case "⊽":
+            case "↓":
                 this.type = Type.NOR;
                 break;
             default:
@@ -38,6 +40,19 @@ public class Operator {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Operator operator = (Operator) o;
+        return type == operator.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type);
     }
 
     @Override

@@ -3,15 +3,16 @@ package bool.evaluable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Thibault Robin
  * @version 1.0
  */
 public class Group implements Evaluable {
-    private final boolean not;
     private final List<Group> groups = new ArrayList<>();
     private final List<Variable> variables = new ArrayList<>();
+    private boolean not;
     private Operator operator;
     private Evaluable evaluable;
     private List<Operation> operations = new ArrayList<>();
@@ -25,7 +26,6 @@ public class Group implements Evaluable {
     }
 
     public void add(Group group, int depth) {
-        System.out.println(depth);
         if (depth == 1) {
             if (operator != null) operations.add(new Operation(operator, evaluable, group));
             evaluable = group;
@@ -73,15 +73,11 @@ public class Group implements Evaluable {
 
     @Override
     public boolean evaluate() {
-        int i = 0;
-        while (operations.isEmpty() && i < groups.size()) {
-            operations = groups.get(i).operations;
-            i++;
-        }
+        if (operations.isEmpty() && !groups.isEmpty()) return groups.get(0).evaluate();
+
         operations.sort(Collections.reverseOrder());
         List<Operation> merges = mergeOperations(operations);
         boolean value = merges.isEmpty() ? evaluable.evaluate() : merges.get(0).evaluate();
-
         return not != value;
     }
 
@@ -93,6 +89,21 @@ public class Group implements Evaluable {
 
     public List<Variable> getVariables() {
         return variables;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return Objects.equals(groups, group.groups) &&
+                Objects.equals(variables, group.variables) &&
+                Objects.equals(operations, group.operations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(groups, variables, operations);
     }
 
     @Override

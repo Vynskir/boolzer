@@ -11,12 +11,10 @@ import java.util.Objects;
  * @version 1.0
  */
 public class Expression {
-    private final String input;
     private final String expression;
     private final TruthTable truthTable;
 
     public Expression(String str) {
-        input = str;
         expression = format(str);
         validate(expression);
 
@@ -50,27 +48,33 @@ public class Expression {
 
     private String format(String str) {
         return str.toUpperCase()
-                .replaceAll("\\s+", "")
-                .replaceAll("NOT", "!").replaceAll("˜", "!").replaceAll("¬", "!")
+                .replaceAll("\\s", "")
+                .replaceAll("\\[\\{", "(")
+                .replaceAll("]}", ")")
+                .replaceAll("NOT|[˜~¬]", "!")
                 .replaceAll("XNOR", "⊙")
-                .replaceAll("NOR", "⊽")
-                .replaceAll("XOR", "⊕")
-                .replaceAll("OR", "+").replaceAll("∨", "+")
-                .replaceAll("NAND", "⊼")
-                .replaceAll("AND", "*").replaceAll("∧", "*").replaceAll("·", "*")
+                .replaceAll("NOR|[⊽]]", "↓")
+                .replaceAll("XOR|[⊻]]", "⊕")
+                .replaceAll("OR|[∨∥]", "+")
+                .replaceAll("NAND|[⊼]]", "↑")
+                .replaceAll("AND|[∧·.&]", "*")
                 .replaceAll("(?<=[\\w)])(?=[A-Z(!])", "*");
     }
 
     private void validate(String str) throws IllegalArgumentException {
         if (str.isEmpty()) {
             throw new IllegalArgumentException("Empty expression");
-        } else if ((str.length() - str.replace("(", "").length()) != (str.length() - str.replace(")", "").length())) {
+        }
+        if ((str.length() - str.replace("(", "").length()) != (str.length() - str.replace(")", "").length())) {
             throw new IllegalArgumentException("Unclosed parenthesis");
+        }
+        if (!Character.isAlphabetic(str.charAt(0)) && str.charAt(0) != '(' && str.charAt(0) != '!') {
+            throw new IllegalArgumentException("Malformed expression");
         }
     }
 
-    public boolean isEquivalentWith(Expression other) {
-        return this.truthTable.equals(other.truthTable);
+    public boolean isEquivalentWith(Expression that) {
+        return this.truthTable.equals(that.truthTable);
     }
 
     public String getExpression() {
@@ -96,6 +100,8 @@ public class Expression {
 
     @Override
     public String toString() {
-        return input + "\n" + expression + "\n" + truthTable;
+        return expression.replaceAll("\\*", "") +
+                "\n" +
+                truthTable;
     }
 }
