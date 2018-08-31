@@ -4,7 +4,11 @@ import bool.evaluable.Group;
 import bool.evaluable.Operator;
 import bool.evaluable.Variable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Thibault Robin
@@ -24,12 +28,7 @@ public class Expression {
         int depth = 0;
         for (int i = 0; i < expression.length(); i++) {
             if (Character.isAlphabetic(expression.charAt(i))) {
-                if (i + 1 < expression.length() && Character.isDigit(expression.charAt(i + 1))) {
-                    String name = String.valueOf(expression.charAt(i)) + String.valueOf(expression.charAt(i + 1));
-                    main.add(new Variable(name, not), depth);
-                } else {
-                    main.add(new Variable(expression.charAt(i), not), depth);
-                }
+                main.add(new Variable(expression.charAt(i), not), depth);
                 not = false;
             } else if (expression.charAt(i) == '(') {
                 depth++;
@@ -39,36 +38,52 @@ public class Expression {
                 depth--;
             } else if (expression.charAt(i) == '!') {
                 not = !not;
-            } else if (!Character.isDigit(expression.charAt(i))) {
+            } else {
                 main.add(new Operator(expression.charAt(i)), depth);
             }
         }
         truthTable = new TruthTable(main);
+        truthTable.removeRedundancies(main);
     }
 
     private String format(String str) {
         return str.toUpperCase()
                 .replaceAll("\\s", "")
-                .replaceAll("\\[\\{", "(")
-                .replaceAll("]}", ")")
-                .replaceAll("NOT|[˜~¬]", "!")
+                .replaceAll("NOT|NON|[˜~¬]", "!")
                 .replaceAll("XNOR", "⊙")
                 .replaceAll("NOR|[⊽]]", "↓")
                 .replaceAll("XOR|[⊻]]", "⊕")
-                .replaceAll("OR|[∨∥]", "+")
+                .replaceAll("OR|OU|[∨∥]", "+")
                 .replaceAll("NAND|[⊼]]", "↑")
-                .replaceAll("AND|[∧·.&]", "*")
+                .replaceAll("AND|ET|[∧·.&]", "*")
                 .replaceAll("(?<=[\\w)])(?=[A-Z(!])", "*");
     }
 
     private void validate(String str) throws IllegalArgumentException {
         if (str.isEmpty()) {
-            throw new IllegalArgumentException("Empty expression");
+            throw new IllegalArgumentException();
+        }
+        if (str.charAt(str.length() - 1) == '!') {
+            throw new IllegalArgumentException("Malformed expression");
+        }
+        if (str.contains("()")) {
+            throw new IllegalArgumentException("Empty parenthesis");
         }
         if ((str.length() - str.replace("(", "").length()) != (str.length() - str.replace(")", "").length())) {
             throw new IllegalArgumentException("Unclosed parenthesis");
         }
-        if (!Character.isAlphabetic(str.charAt(0)) && str.charAt(0) != '(' && str.charAt(0) != '!') {
+
+        Matcher matcher = Pattern.compile("[^A-Z()!⊙↓⊕+↑*]").matcher(str);
+        List<String> characters = new ArrayList<>();
+        while (matcher.find()) {
+            characters.add(String.valueOf(str.charAt(matcher.start())));
+        }
+        if (characters.size() == 1) {
+            throw new IllegalArgumentException("Invalid character: \"" + characters.get(0) + "\"");
+        } else if (characters.size() > 1) {
+            throw new IllegalArgumentException("Invalid characters: \"" + String.join(", ", characters) + "\"");
+        }
+        if (Pattern.compile("[⊙↓⊕+↑*](?=[^A-Z()!])|(?<=[^A-Z()])[⊙↓⊕+↑*]|(?<=^)[⊙↓⊕+↑*]|[⊙↓⊕+↑*](?=$)").matcher(str).find()) {
             throw new IllegalArgumentException("Malformed expression");
         }
     }

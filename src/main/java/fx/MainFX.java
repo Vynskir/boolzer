@@ -2,8 +2,10 @@ package fx;
 
 import bool.expression.Expression;
 import bool.expression.TruthTable;
+import com.sun.javafx.geom.Rectangle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,14 +25,14 @@ public class MainFX extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/boolzer.fxml"));
         Parent root = loader.load();
 
-        Controller controller = loader.getController();
-
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/css/boolzer.css").toString());
 
+        Controller controller = loader.getController();
         initialize(controller.getTextField1(), controller.getTextArea1(), controller.getGridPane1());
         initialize(controller.getTextField2(), controller.getTextArea2(), controller.getGridPane2());
-        initializeCompare(controller.getTextArea1(), controller.getTextArea2(), controller.getTextArea3());
+        compare(controller.getTextField1(), controller.getTextField2(), controller.getTextArea3());
+        compare(controller.getTextField2(), controller.getTextField1(), controller.getTextArea3());
 
         stage.setTitle("Boolzer");
         stage.setOnCloseRequest(e -> System.exit(0));
@@ -49,13 +51,24 @@ public class MainFX extends Application {
 
                 TruthTable truthTable = expression.getTruthTable();
                 for (int x = 0; x < truthTable.getVariables().size(); x++) {
-                    gridPane.add(new Label(truthTable.getVariables().get(x).getLabel()), x, 0);
+                    Label label = new Label(truthTable.getVariables().get(x).getLabel());
+                    label.setPadding(new Insets(10, 0, 0, 9));
+                    label.setStyle("-fx-font-weight: bold;");
+                    gridPane.add(label, x, 0);
                 }
-                gridPane.add(new Label("O"), truthTable.getVariables().size(), 0);
+                Label label = new Label("Out");
+                label.setPadding(new Insets(10, 0, 0, 4));
+                label.setStyle("-fx-font-weight: bold;");
+                gridPane.add(label, truthTable.getVariables().size(), 0);
 
-                for (int x = 0; x < truthTable.getTable().size(); x++) {
-                    for (int y = 0; y < truthTable.getTable().get(x).size(); y++) {
-                        gridPane.add(new Label(String.valueOf(truthTable.getTable().get(x).get(y))), y, x + 1);
+                for (int y = 0; y < truthTable.getTable().size(); y++) {
+                    for (int x = 0; x < truthTable.getTable().get(y).size(); x++) {
+                        Label label2 = new Label(String.valueOf(truthTable.getTable().get(y).get(x)));
+                        label2.setPadding(new Insets(5, 10, 5, 10));
+                        if (truthTable.getTable().get(y).get(truthTable.getTable().get(y).size()-1) == '0') {
+                            label2.setStyle("-fx-text-fill: gray;");
+                        }
+                        gridPane.add(label2, x, y + 1);
                     }
                 }
             } catch (IllegalArgumentException e) {
@@ -63,11 +76,6 @@ public class MainFX extends Application {
                 textArea.setText(e.getMessage());
             }
         });
-    }
-
-    private void initializeCompare(TextField textArea1, TextField textArea2, TextField textArea3) {
-        compare(textArea1, textArea2, textArea3);
-        compare(textArea2, textArea1, textArea3);
     }
 
     private void compare(TextField textArea1, TextField textArea2, TextField textArea3) {
@@ -88,6 +96,8 @@ public class MainFX extends Application {
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 }
+            } else {
+                textArea3.setText("");
             }
         });
     }
