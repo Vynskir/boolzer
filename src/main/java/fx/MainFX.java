@@ -46,6 +46,7 @@ public class MainFX extends Application {
             try {
                 Expression expression = new Expression(textField.getText());
                 textArea1.setText(expression.getExpression());
+                textArea1.setStyle("-fx-text-fill: black;");
 
                 if (expression.size() < 2) {
                     textArea2.setText(String.valueOf(expression.size()) + " gate");
