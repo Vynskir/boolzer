@@ -43,7 +43,6 @@ public class Expression {
             }
         }
         truthTable = new TruthTable(main);
-        truthTable.removeRedundancies(main);
     }
 
     private String format(String str) {
@@ -63,16 +62,12 @@ public class Expression {
         if (str.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        if (str.charAt(str.length() - 1) == '!') {
-            throw new IllegalArgumentException("Malformed expression");
-        }
         if (str.contains("()")) {
             throw new IllegalArgumentException("Empty parenthesis");
         }
         if ((str.length() - str.replace("(", "").length()) != (str.length() - str.replace(")", "").length())) {
             throw new IllegalArgumentException("Unclosed parenthesis");
         }
-
         Matcher matcher = Pattern.compile("[^A-Z()!⊙↓⊕+↑*]").matcher(str);
         List<String> characters = new ArrayList<>();
         while (matcher.find()) {
@@ -83,7 +78,7 @@ public class Expression {
         } else if (characters.size() > 1) {
             throw new IllegalArgumentException("Invalid characters: \"" + String.join(", ", characters) + "\"");
         }
-        if (Pattern.compile("[⊙↓⊕+↑*](?=[^A-Z()!])|(?<=[^A-Z()])[⊙↓⊕+↑*]|(?<=^)[⊙↓⊕+↑*]|[⊙↓⊕+↑*](?=$)").matcher(str).find()) {
+        if (Pattern.compile("[⊙↓⊕+↑*](?=[^A-Z()!])|(?<=[^A-Z()])[⊙↓⊕+↑*]|(?<=^)[⊙↓⊕+↑*]|[!⊙↓⊕+↑*](?=$)").matcher(str).find()) {
             throw new IllegalArgumentException("Malformed expression");
         }
     }
@@ -98,6 +93,16 @@ public class Expression {
 
     public TruthTable getTruthTable() {
         return truthTable;
+    }
+
+    public int size() {
+        String gates = "!⊙↓⊕+↑*";
+
+        int size = 0;
+        for (char c : expression.toCharArray()) {
+            if (gates.indexOf(c) != -1) size++;
+        }
+        return size;
     }
 
     @Override

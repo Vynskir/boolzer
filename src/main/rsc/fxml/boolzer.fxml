@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -20,11 +21,22 @@
                   <VBox>
                      <children>
                         <TextField fx:id="textField1" alignment="CENTER" promptText="Enter a boolean expression" />
-                        <TextField fx:id="textArea1" alignment="CENTER" editable="false" prefHeight="16.0" prefWidth="315.0">
+                        <Label fx:id="textArea1" alignment="CENTER" prefHeight="16.0" prefWidth="1390.0">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
-                        </TextField>
+                        </Label>
+                        <Label fx:id="textArea4" alignment="CENTER" prefHeight="16.0" prefWidth="1390.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Italic" size="13.0" />
+                           </font>
+                        </Label>
                         <ScrollPane pannable="true" VBox.vgrow="ALWAYS">
                            <content>
                               <GridPane fx:id="gridPane1" alignment="CENTER" mouseTransparent="true">
@@ -45,11 +57,22 @@
                   <VBox>
                      <children>
                         <TextField fx:id="textField2" alignment="CENTER" promptText="Enter a boolean expression" />
-                        <TextField fx:id="textArea2" alignment="CENTER" editable="false">
+                        <Label fx:id="textArea2" alignment="CENTER" prefHeight="16.0" prefWidth="1390.0">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
-                        </TextField>
+                        </Label>
+                        <Label fx:id="textArea5" alignment="CENTER" prefHeight="16.0" prefWidth="1390.0">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="System Italic" size="13.0" />
+                           </font>
+                        </Label>
                         <ScrollPane pannable="true" VBox.vgrow="ALWAYS">
                            <content>
                               <GridPane fx:id="gridPane2" alignment="CENTER" mouseTransparent="true">

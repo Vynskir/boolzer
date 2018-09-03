@@ -3,6 +3,7 @@ package fx;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -21,14 +22,19 @@ public class Controller implements Initializable {
     private TextField textField2;
 
     @FXML
-    private TextField textArea1;
-
-    @FXML
-    private TextField textArea2;
-
-    @FXML
     private TextField textArea3;
 
+    @FXML
+    private Label textArea1;
+
+    @FXML
+    private Label textArea2;
+
+    @FXML
+    private Label textArea4;
+
+    @FXML
+    private Label textArea5;
 
     @FXML
     private GridPane gridPane1;
@@ -39,6 +45,8 @@ public class Controller implements Initializable {
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        textArea1.setStyle(null);
+
         Platform.runLater(() -> vBox.requestFocus());
     }
 
@@ -50,16 +58,24 @@ public class Controller implements Initializable {
         return textField2;
     }
 
-    public TextField getTextArea1() {
+    public TextField getTextArea3() {
+        return textArea3;
+    }
+
+    public Label getTextArea1() {
         return textArea1;
     }
 
-    public TextField getTextArea2() {
+    public Label getTextArea2() {
         return textArea2;
     }
 
-    public TextField getTextArea3() {
-        return textArea3;
+    public Label getTextArea4() {
+        return textArea4;
+    }
+
+    public Label getTextArea5() {
+        return textArea5;
     }
 
     public GridPane getGridPane1() {

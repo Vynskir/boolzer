@@ -2,7 +2,6 @@ package fx;
 
 import bool.expression.Expression;
 import bool.expression.TruthTable;
-import com.sun.javafx.geom.Rectangle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -29,8 +28,8 @@ public class MainFX extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/boolzer.css").toString());
 
         Controller controller = loader.getController();
-        initialize(controller.getTextField1(), controller.getTextArea1(), controller.getGridPane1());
-        initialize(controller.getTextField2(), controller.getTextArea2(), controller.getGridPane2());
+        initialize(controller.getTextField1(), controller.getTextArea1(), controller.getTextArea4(), controller.getGridPane1());
+        initialize(controller.getTextField2(), controller.getTextArea2(), controller.getTextArea5(), controller.getGridPane2());
         compare(controller.getTextField1(), controller.getTextField2(), controller.getTextArea3());
         compare(controller.getTextField2(), controller.getTextField1(), controller.getTextArea3());
 
@@ -40,14 +39,19 @@ public class MainFX extends Application {
         stage.show();
     }
 
-    private void initialize(TextField textField, TextField textArea, GridPane gridPane) {
+    private void initialize(TextField textField, Label textArea1, Label textArea2, GridPane gridPane) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             gridPane.getChildren().clear();
 
             try {
                 Expression expression = new Expression(textField.getText());
-                textArea.setStyle("-fx-text-fill: black;");
-                textArea.setText(expression.getExpression());
+                textArea1.setText(expression.getExpression());
+
+                if (expression.size() < 2) {
+                    textArea2.setText(String.valueOf(expression.size()) + " gate");
+                } else {
+                    textArea2.setText(String.valueOf(expression.size()) + " gates");
+                }
 
                 TruthTable truthTable = expression.getTruthTable();
                 for (int x = 0; x < truthTable.getVariables().size(); x++) {
@@ -65,22 +69,23 @@ public class MainFX extends Application {
                     for (int x = 0; x < truthTable.getTable().get(y).size(); x++) {
                         Label label2 = new Label(String.valueOf(truthTable.getTable().get(y).get(x)));
                         label2.setPadding(new Insets(5, 10, 5, 10));
-                        if (truthTable.getTable().get(y).get(truthTable.getTable().get(y).size()-1) == '0') {
+                        if (truthTable.getTable().get(y).get(truthTable.getTable().get(y).size() - 1) == '0') {
                             label2.setStyle("-fx-text-fill: gray;");
                         }
                         gridPane.add(label2, x, y + 1);
                     }
                 }
             } catch (IllegalArgumentException e) {
-                textArea.setStyle("-fx-text-fill: red;");
-                textArea.setText(e.getMessage());
+                textArea1.setStyle("-fx-text-fill: red;");
+                textArea1.setText(e.getMessage());
+                textArea2.setText("");
             }
         });
     }
 
     private void compare(TextField textArea1, TextField textArea2, TextField textArea3) {
         textArea1.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!textArea1.getText().isEmpty() && !textArea2.getText().isEmpty()) {
+            if (!(textArea1.getText().isEmpty() || textArea2.getText().isEmpty())) {
                 try {
                     Expression expression1 = new Expression(textArea1.getText());
                     Expression expression2 = new Expression(textArea2.getText());

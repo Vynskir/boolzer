@@ -19,6 +19,8 @@ public class TruthTable {
 
     public TruthTable(Group group) {
         this(group, group.getVariables());
+
+        removeRedundancies(group);
     }
 
     private TruthTable(Group group, List<Variable> variables) {
@@ -40,7 +42,7 @@ public class TruthTable {
         comparableTable = new ArrayList<>(table);
     }
 
-    public void removeRedundancies(Group group) {
+    private void removeRedundancies(Group group) {
         List<Variable> redundancies = new ArrayList<>();
 
         for (int i = 0; i < variables.size(); i++) {
@@ -56,7 +58,7 @@ public class TruthTable {
                     }
                 }
             }
-            if (lines > 1 && count == lines/2) {
+            if (lines > 1 && count == lines / 2) {
                 redundancies.add(variables.get(i));
             }
         }
