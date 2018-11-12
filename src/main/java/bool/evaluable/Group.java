@@ -65,8 +65,8 @@ public class Group implements Evaluable {
                 if (operations.get(i).overlapsWith(operations.get(j))) {
                     merged = true;
                 }
-                merges.add(operations.get(i));
             }
+            merges.add(operations.get(i));
         }
         return merged ? mergeOperations(merges) : merges;
     }
