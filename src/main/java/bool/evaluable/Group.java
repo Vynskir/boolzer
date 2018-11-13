@@ -51,32 +51,27 @@ public class Group implements Evaluable {
         }
     }
 
-    private List<Operation> mergeOperations(List<Operation> operations) {
-        if (operations.size() == 1) return operations;
+    private void mergeOperations() {
+        operations.sort(Comparator.reverseOrder());
 
-        List<Operation> merges = new ArrayList<>();
-
-        boolean merged = false;
-        for (int i = 0; i < operations.size() - 1; i++) {
-            for (int j = i+1; j < operations.size(); j++) {
-                if (operations.get(i).overlapsWith(operations.get(j))) {
-                    merged = true;
+        boolean overlapped = false;
+        do {
+            for (int i = 0; i < operations.size() - 1; i++) {
+                for (int j = i + 1; j < operations.size(); j++) {
+                    overlapped = operations.get(i).overlapsWith(operations.get(j));
                 }
             }
-            merges.add(operations.get(i));
-        }
-        return merged ? mergeOperations(merges) : merges;
+        } while (overlapped);
     }
 
     @Override
     public boolean evaluate() {
         if (operations.isEmpty() && !groups.isEmpty()) return groups.get(0).evaluate();
 
-        operations.sort(Comparator.reverseOrder());
+        mergeOperations();
 
-        List<Operation> merges = mergeOperations(operations);
-        boolean value = merges.isEmpty() ? evaluable.evaluate() : merges.get(0).evaluate();
-        return not != value;
+        boolean evaluation = operations.isEmpty() ? evaluable.evaluate() : operations.get(0).evaluate();
+        return not != evaluation;
     }
 
     public void setValues(Variable v, boolean b) {
@@ -108,5 +103,4 @@ public class Group implements Evaluable {
     public String toString() {
         return not ? "!" + operations.toString() : operations.toString();
     }
-
 }

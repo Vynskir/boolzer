@@ -27,11 +27,11 @@ public class MainFX extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/css/boolzer.css").toString());
 
-        Controller controller = loader.getController();
-        initialize(controller.getTextField1(), controller.getTextArea1(), controller.getTextArea4(), controller.getGridPane1());
-        initialize(controller.getTextField2(), controller.getTextArea2(), controller.getTextArea5(), controller.getGridPane2());
-        compare(controller.getTextField1(), controller.getTextField2(), controller.getTextArea3());
-        compare(controller.getTextField2(), controller.getTextField1(), controller.getTextArea3());
+        Controller ctrl = loader.getController();
+        initialize(ctrl.getTextField1(), ctrl.getTextArea1(), ctrl.getTextArea4(), ctrl.getGridPane1());
+        initialize(ctrl.getTextField2(), ctrl.getTextArea2(), ctrl.getTextArea5(), ctrl.getGridPane2());
+        compare(ctrl.getTextField1(), ctrl.getTextField2(), ctrl.getTextArea3());
+        compare(ctrl.getTextField2(), ctrl.getTextField1(), ctrl.getTextArea3());
 
         stage.setTitle("Boolzer");
         stage.setOnCloseRequest(e -> System.exit(0));

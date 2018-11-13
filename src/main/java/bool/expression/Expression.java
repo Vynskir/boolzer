@@ -120,8 +120,6 @@ public class Expression {
 
     @Override
     public String toString() {
-        return expression +
-                "\n" +
-                truthTable;
+        return getExpression() + "\n" + truthTable;
     }
 }
