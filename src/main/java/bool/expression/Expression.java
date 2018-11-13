@@ -88,7 +88,7 @@ public class Expression {
     }
 
     public String getExpression() {
-        return expression;
+        return expression.replaceAll("\\*", "");
     }
 
     public TruthTable getTruthTable() {
@@ -120,7 +120,7 @@ public class Expression {
 
     @Override
     public String toString() {
-        return expression.replaceAll("\\*", "") +
+        return expression +
                 "\n" +
                 truthTable;
     }

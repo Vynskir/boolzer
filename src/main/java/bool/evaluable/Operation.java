@@ -71,9 +71,9 @@ public class Operation implements Evaluable, Comparable<Operation> {
 
     @Override
     public String toString() {
-        return "(" + left +
+        return "{" + left +
                 " " + operator +
                 " " + right +
-                ")";
+                "}";
     }
 }

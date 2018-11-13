@@ -57,7 +57,6 @@ public class Variable implements Evaluable, Comparable<Variable> {
 
     @Override
     public String toString() {
-        if (not) return "NOT " + label;
-        return label;
+        return not ? "!" + label : label;
     }
 }

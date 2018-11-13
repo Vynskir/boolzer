@@ -1,9 +1,6 @@
 package bool.evaluable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Thibault Robin
@@ -61,7 +58,7 @@ public class Group implements Evaluable {
 
         boolean merged = false;
         for (int i = 0; i < operations.size() - 1; i++) {
-            for (int j = 1; j < operations.size(); j++) {
+            for (int j = i+1; j < operations.size(); j++) {
                 if (operations.get(i).overlapsWith(operations.get(j))) {
                     merged = true;
                 }
@@ -75,7 +72,8 @@ public class Group implements Evaluable {
     public boolean evaluate() {
         if (operations.isEmpty() && !groups.isEmpty()) return groups.get(0).evaluate();
 
-        operations.sort(Collections.reverseOrder());
+        operations.sort(Comparator.reverseOrder());
+
         List<Operation> merges = mergeOperations(operations);
         boolean value = merges.isEmpty() ? evaluable.evaluate() : merges.get(0).evaluate();
         return not != value;
@@ -108,7 +106,7 @@ public class Group implements Evaluable {
 
     @Override
     public String toString() {
-        return not ? "NOT" + operations.toString() : operations.toString();
+        return not ? "!" + operations.toString() : operations.toString();
     }
 
 }
