@@ -12,5 +12,6 @@ The JavaFX GUI will be launched by default when executing the jar file
 
 ### CLI
 
-The interactive CLI mode can be launched by the follwoing command:
+The interactive CLI mode can be launched by the following command:  
+
 ``java -cp boolzer.jar Main``
