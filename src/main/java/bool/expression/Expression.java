@@ -28,7 +28,11 @@ public class Expression {
         int depth = 0;
         for (int i = 0; i < expression.length(); i++) {
             if (Character.isAlphabetic(expression.charAt(i))) {
-                main.add(new Variable(expression.charAt(i), not), depth);
+                String label = Character.toString(expression.charAt(i));
+                if (i + 1 < expression.length() && Character.isDigit(expression.charAt(i+1))) {
+                    label += Character.toString(expression.charAt(i+1));
+                }
+                main.add(new Variable(label, not), depth);
                 not = false;
             } else if (expression.charAt(i) == '(') {
                 depth++;
@@ -38,7 +42,7 @@ public class Expression {
                 depth--;
             } else if (expression.charAt(i) == '!') {
                 not = !not;
-            } else {
+            } else if (!Character.isDigit(expression.charAt(i))){
                 main.add(new Operator(expression.charAt(i)), depth);
             }
         }
@@ -68,7 +72,7 @@ public class Expression {
         if ((str.length() - str.replace("(", "").length()) != (str.length() - str.replace(")", "").length())) {
             throw new IllegalArgumentException("Unclosed parenthesis");
         }
-        Matcher matcher = Pattern.compile("[^A-Z()!⊙↓⊕+↑*]").matcher(str);
+        Matcher matcher = Pattern.compile("[^0-9A-Z()!⊙↓⊕+↑*]|(?<=[0-9])[0-9]").matcher(str);
         List<String> characters = new ArrayList<>();
         while (matcher.find()) {
             characters.add(String.valueOf(str.charAt(matcher.start())));
@@ -78,7 +82,7 @@ public class Expression {
         } else if (characters.size() > 1) {
             throw new IllegalArgumentException("Invalid characters: \"" + String.join(", ", characters) + "\"");
         }
-        if (Pattern.compile("[⊙↓⊕+↑*](?=[^A-Z()!])|(?<=[^A-Z()])[⊙↓⊕+↑*]|(?<=^)[⊙↓⊕+↑*]|[!⊙↓⊕+↑*](?=$)").matcher(str).find()) {
+        if (Pattern.compile("[⊙↓⊕+↑*](?=[^0-9A-Z()!])|(?<=[^0-9A-Z()])[⊙↓⊕+↑*]|(?<=^)[⊙↓⊕+↑*]|[!⊙↓⊕+↑*](?=$)").matcher(str).find()) {
             throw new IllegalArgumentException("Malformed expression");
         }
     }
