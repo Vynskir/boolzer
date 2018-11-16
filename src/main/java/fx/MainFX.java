@@ -48,30 +48,33 @@ public class MainFX extends Application {
                 textArea1.setText(expression.getExpression());
                 textArea1.setStyle("-fx-text-fill: black;");
 
-                if (expression.size() < 2) {
-                    textArea2.setText(String.valueOf(expression.size()) + " gate");
+                if (expression.size() == 1) {
+                    textArea2.setText(String.valueOf(expression.size()) + " logic gate");
                 } else {
-                    textArea2.setText(String.valueOf(expression.size()) + " gates");
+                    textArea2.setText(String.valueOf(expression.size()) + " logic gates");
                 }
 
                 TruthTable truthTable = expression.getTruthTable();
                 for (int x = 0; x < truthTable.getVariables().size(); x++) {
                     Label label = new Label(truthTable.getVariables().get(x).getLabel());
-                    label.setPadding(new Insets(10, 0, 0, 9));
+                    label.setMinSize(25, 25);
                     label.setStyle("-fx-font-weight: bold;");
                     gridPane.add(label, x, 0);
                 }
                 Label label = new Label("Out");
-                label.setPadding(new Insets(10, 0, 0, 4));
+                label.setMinSize(25, 25);
                 label.setStyle("-fx-font-weight: bold;");
                 gridPane.add(label, truthTable.getVariables().size(), 0);
 
                 for (int y = 0; y < truthTable.getTable().size(); y++) {
                     for (int x = 0; x < truthTable.getTable().get(y).size(); x++) {
                         Label label2 = new Label(String.valueOf(truthTable.getTable().get(y).get(x)));
-                        label2.setPadding(new Insets(5, 10, 5, 10));
+                        label2.setMinSize(25, 17);
+                        label2.setMaxSize(25, 17);
                         if (truthTable.getTable().get(y).get(truthTable.getTable().get(y).size() - 1) == '0') {
                             label2.setStyle("-fx-text-fill: gray;");
+                        } else {
+                            label2.setStyle("-fx-text-fill: black;");
                         }
                         gridPane.add(label2, x, y + 1);
                     }
@@ -84,7 +87,7 @@ public class MainFX extends Application {
         });
     }
 
-    private void compare(TextField textArea1, TextField textArea2, TextField textArea3) {
+    private void compare(TextField textArea1, TextField textArea2, Label textArea3) {
         textArea1.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!(textArea1.getText().isEmpty() || textArea2.getText().isEmpty())) {
                 try {
@@ -93,11 +96,11 @@ public class MainFX extends Application {
 
                     if (expression1.isEquivalentWith(expression2)) {
                         textArea3.setText("The two expressions are equivalent");
-                        textArea3.setStyle("-fx-text-fill: green;");
+                        textArea3.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
 
                     } else {
                         textArea3.setText("The two expressions are not equivalent");
-                        textArea3.setStyle("-fx-text-fill: red;");
+                        textArea3.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
                     }
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());

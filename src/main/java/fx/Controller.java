@@ -22,13 +22,13 @@ public class Controller implements Initializable {
     private TextField textField2;
 
     @FXML
-    private TextField textArea3;
-
-    @FXML
     private Label textArea1;
 
     @FXML
     private Label textArea2;
+
+    @FXML
+    private Label textArea3;
 
     @FXML
     private Label textArea4;
@@ -58,16 +58,16 @@ public class Controller implements Initializable {
         return textField2;
     }
 
-    public TextField getTextArea3() {
-        return textArea3;
-    }
-
     public Label getTextArea1() {
         return textArea1;
     }
 
     public Label getTextArea2() {
         return textArea2;
+    }
+
+    public Label getTextArea3() {
+        return textArea3;
     }
 
     public Label getTextArea4() {

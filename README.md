@@ -1,7 +1,7 @@
 # Boolzer
 *Boolzer is a simple Java 8 tool allowing the comparison of boolean expressions*
 
-![screenshot](https://github.com/Vynskir/boolzer/blob/master/src/main/rsc/images/screenshot.png)
+![screenshot](https://github.com/Vynskir/boolzer/blob/master/screen.png)
 
 ## Installation 
 

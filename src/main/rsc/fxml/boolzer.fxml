@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vBox" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.Controller">
+<VBox fx:id="vBox" prefHeight="400.0" prefWidth="640.0" style="-fx-border-color: gray; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -20,7 +20,7 @@
               <items>
                   <VBox>
                      <children>
-                        <TextField fx:id="textField1" alignment="CENTER" promptText="Enter a boolean expression" />
+                        <TextField fx:id="textField1" alignment="CENTER" promptText="Enter a boolean expression" style="-fx-background-radius: 0;" />
                         <Label fx:id="textArea1" alignment="CENTER" prefHeight="16.0" prefWidth="1390.0">
                            <VBox.margin>
                               <Insets top="5.0" />
@@ -47,7 +47,7 @@
                                   <RowConstraints maxHeight="-Infinity" minHeight="25.0" prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
                                 </rowConstraints>
                                  <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="15.0" left="25.0" right="15.0" top="15.0" />
                                  </padding>
                               </GridPane>
                            </content>
@@ -56,7 +56,7 @@
                   </VBox>
                   <VBox>
                      <children>
-                        <TextField fx:id="textField2" alignment="CENTER" promptText="Enter a boolean expression" />
+                        <TextField fx:id="textField2" alignment="CENTER" promptText="Enter a boolean expression" style="-fx-background-radius: 0;" />
                         <Label fx:id="textArea2" alignment="CENTER" prefHeight="16.0" prefWidth="1390.0">
                            <VBox.margin>
                               <Insets top="5.0" />
@@ -83,7 +83,7 @@
                                     <RowConstraints maxHeight="-Infinity" minHeight="25.0" prefHeight="25.0" valignment="CENTER" vgrow="ALWAYS" />
                                  </rowConstraints>
                                  <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="15.0" left="25.0" right="15.0" top="15.0" />
                                  </padding>
                               </GridPane>
                            </content>
@@ -94,10 +94,6 @@
             </SplitPane>
       </children>
     </AnchorPane>
-      <TextField fx:id="textArea3" alignment="CENTER" editable="false" mouseTransparent="true" VBox.vgrow="NEVER">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </TextField>
+      <Label fx:id="textArea3" alignment="CENTER" minHeight="26.0" prefWidth="10000.0" VBox.vgrow="NEVER" />
   </children>
 </VBox>
