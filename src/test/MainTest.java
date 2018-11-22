@@ -52,4 +52,20 @@ class MainTest {
 
         assertTrue(expression1.isEquivalentWith(expression2));
     }
+
+    @Test
+    public void mainTest7() {
+        Expression expression1 = new Expression("a0!b0(!b1+a1)+a1!b1");
+        Expression expression2 = new Expression("!b1 a1 + !b0 !b1 a0 + !b0 a0 a1");
+
+        assertTrue(expression1.isEquivalentWith(expression2));
+    }
+
+    @Test
+    public void mainTest8() {
+        Expression expression1 = new Expression("A!C(!D+B)+B!D");
+        Expression expression2 = new Expression(" !DB + !C!DA + !CAB");
+
+        assertTrue(expression1.isEquivalentWith(expression2));
+    }
 }

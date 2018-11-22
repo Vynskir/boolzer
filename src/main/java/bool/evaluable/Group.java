@@ -54,11 +54,14 @@ public class Group implements Evaluable {
     private void mergeOperations() {
         operations.sort(Comparator.reverseOrder());
 
-        boolean overlapped = false;
+        boolean overlapped;
         do {
+            overlapped = false;
+
             for (int i = 0; i < operations.size() - 1; i++) {
                 for (int j = i + 1; j < operations.size(); j++) {
-                    overlapped = operations.get(i).overlapsWith(operations.get(j));
+                    if (operations.get(i).overlapsWith(operations.get(j))) {
+                        overlapped = true;                    }
                 }
             }
         } while (overlapped);
